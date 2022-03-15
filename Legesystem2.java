@@ -261,7 +261,7 @@ public class Legesystem2 {
         }
 
 
-        
+
         //E4
         public void leggtil() {
             //Hvordan man lager input i java:
@@ -385,4 +385,65 @@ public class Legesystem2 {
                 }
             }
         }
+
+
+        //E5
+        public void Brukresept() {  
+            System.out.println("Hvilken pasient vil du se resepter for?");
+            //Jeg antar at navnene er tatt fra pasientliste i linje 6 og er fra leggtil metoden i E4. Kan lage en for-loop som sjekker inputen til brukeren og returer true eller fasle
+
+            Scanner input_sjekk = new Scanner(System.in);
+            //Pasient p = null;
+            //Resept resept = null;
+
+            int antallpasienter =0;
+            for (Pasient pasient : pasientliste) { 
+                //pasient = p;
+
+                //0: Anne (fnr 12121212121) prøver å gjøre samme utskriftformat
+                System.out.println(antallpasienter + ": " + pasient.hent_navn() + " (fnr " + pasient.hent_fodselnr() + ")");
+                antallpasienter +=1;
+            }
+
+            int valg_av_pasientnavn = input_sjekk.nextInt();
+            Pasient p = pasientliste.hent(valg_av_pasientnavn);
+            System.out.println("Valgt Pasient: " + p.hent_navn() + " (fnr " + p.hent_fodselnr() + ")" );
+            System.out.println("Hvilken resept vil du bruke?");
+
+            int resept_teller = 0;
+            for(Resept element : p.hent_reseptliste()) {
+                //resept = element;
+                System.out.println(resept_teller + ": " + element.hentLegemiddel() + "("+ element.hentReit() +" reit)");
+                resept_teller+=1;
+                }
+
+            int velge_resept = input_sjekk.nextInt();
+            Resept resept = reseptliste.hent(velge_resept);
+            resept.bruk();
+            System.out.println("Brukte resept paa " + resept.hentLegemiddel() + "." + " Antall reit igjen er: " + resept.hentReit());
+            }
+
+
+            //E6
+            public void statestikk() {
+
+            //henter totalt antall resepter med vanedannede legemiddel
+                int antall_v = 0;
+                for (Resept resept : reseptliste) {
+                    if (resept.hentLegemiddel() instanceof Vanedannende) {
+                        antall_v+= 1;
+                    }
+                System.out.println("Totalt Vanedannende resepter:" + antall_v);
+                }
+
+            //henter totalt antall resepter med narkotisk legemiddel
+                int antall_n = 0;
+                for (Resept resept : reseptliste) {
+                    if (resept.hentLegemiddel() instanceof Narkotisk) {
+                        antall_n+= 1;
+                    }
+                    System.out.println("Totalt Vanedannende resepter:" + antall_n);
+                }
+            }
+
 }
