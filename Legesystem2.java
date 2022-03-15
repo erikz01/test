@@ -248,8 +248,141 @@ public class Legesystem2 {
             for (Legemiddel legemiddel : legemiddelliste) {
                 System.out.println(legemiddel);
             }
-            
+
+            System.out.println("\nReseptene som er registrert i systemet:");
+            for (Resept resept : reseptliste) {
+                System.out.println("-> " + resept);
+            }
+
+            System.out.println("Liste over alle leger:");
+            for (Resept lege : legeliste) { //fungerer ikke på grunn av linje 8
+                System.out.println(lege);
+            }
+        }
 
 
+        
+        //E4
+        public void leggtil() {
+            //Hvordan man lager input i java:
+            //https://www.w3schools.com/java/showjava.asp?filename=demo_api_scanner
+            Scanner input_objekt = new Scanner(System.in);
+
+            System.out.println("Hva vil du legg til?");
+            System.out.println("For å velge Lege skriv: lege");
+            System.out.println("For å velge Pasient skriv: pasient");
+            System.out.println("For å velge Resept skriv: resept");
+            System.out.println("For å velge Legemiddel skriv: middel");
+
+
+
+
+            String svar = input_objekt.nextLine();
+
+            if (svar.equals("lege")) {  
+                //1.bruker skrive navn
+                System.out.println("Du har valgt å legge til en lege:");
+                System.out.println("Hva er navnet til legen din?");
+                String legenavn = input_objekt.nextLine();
+
+                //2.Spør om legen er en Spesialist. Eller la koden sjekker det selv med en å ta navnet inn i en forlokke av alle speislister?
+                //må sporre om kontrollID
+
+                System.out.println("Er " + legenavn + " en spesialist?");
+                System.out.println("Skriv enten \'ja\' eller \'nei\':");
+                String spesialist = input_objekt.nextLine();
+
+                if (spesialist.toLowerCase().equals("ja")) {
+                    System.out.println("Hva er kontrollID'en til " + legenavn + "?");  
+                    String id = input_objekt.nextLine();
+                    Spesialist nyspesialist = new Spesialist(legenavn,id);
+                    legeliste.leggTil(nyspesialist);//feilmedling pga linje 8
+                    System.out.println(legenavn + " med kontrollID: " + id + " er nå lagt inn i systemet vårt som spesialist.");  
+                }
+
+                else if (spesialist.toLowerCase().equals("nei")) { 
+                    //legger til som vanlig lege:
+                    Lege nylege = new Lege(legenavn);
+                    legeliste.leggTil(legenavn);//feilmedling pga linje 8
+                    System.out.println(legenavn + " er ikke en spesialist og er lagt som en vanlig lege i systemtet vårt.");  
+                }
+
+                else if (!(spesialist.toLowerCase().contains("nei") || spesialist.toLowerCase().contains("ja"))) { 
+                    System.out.println("Ugyldig input! Skriv enten\'ja\' eller \'nei\'");  
+                }
+
+                //Legge til pasient 
+                //Denne kan Inge ta. Bare følg oppsettet mitt i Lege
+                else if (svar.equals("pasient")) {  
+                }
+
+
+
+                //My kan gjøre denne. Den kan være litt vanskelig. det er derfor du får denne :D
+                //Inge du kan også prøve på denne
+                else if (svar.equals("resept")) {  
+                }
+
+
+
+                else if (svar.equals("legemiddel")) {  
+                    System.out.println("Du har valgt å legge til et nytt legemiddel.");  
+                    System.out.println("For å velge Narkotisk skriv: \'narkotisk\'");  
+                    System.out.println("For å velge Vanedannede skriv: \'vane\'");  
+                    System.out.println("For å velge Vanlig skriv: \'vanlig\'");
+
+                    String valg = input_objekt.nextLine();
+
+                    if (valg.toLowerCase().equals("narkotisk")) {
+                        //oppsett  public Narkotisk(String navn, int pris, double virkestoff, int narkotisk_styrke) {
+                        System.out.println("Skriv inn navnet til det narkotiske legemiddelet:");
+                        String narko_navn = input_objekt.nextLine();
+
+                        System.out.println("Skriv inn prisen til det narkotiske legemiddelet:");
+                        //int narko_pris = Integer.parseInt(input_objekt.nextLine());
+                        int narko_pris = Integer.parseInt(input_objekt.nextLine());
+
+                        System.out.println("Skriv inn virkestoff til det narkotiske legemiddelet:");
+                        double narko_virkestoff = Double.parseDouble(input_objekt.nextLine());
+
+                        System.out.println("Skriv inn styrken til det narkotiske legemiddelet:");
+                        int narko_styrke = Integer.parseInt(input_objekt.nextLine());
+
+                        Narkotisk nynarko = new Narkotisk(narko_navn, narko_pris, narko_virkestoff, narko_styrke);
+
+                        legemiddelliste.leggTil(nynarko);
+                    }
+
+
+                    if (valg.toLowerCase().equals("vane")) {
+                        //public Vanedannende(String navn, int pris, double virkestoff, int vanedannende_styrke) {
+                        System.out.println("Skriv inn navnet til det Vanedannende legemiddelet:");
+                        String vane_navn = input_objekt.nextLine();
+
+                        System.out.println("Skriv inn prisen til det Vanedannende legemiddelet:");
+                        //int narko_pris = Integer.parseInt(input_objekt.nextLine());
+                        int vane_pris = Integer.parseInt(input_objekt.nextLine());
+
+                        System.out.println("Skriv inn virkestoff til det Vanedannende legemiddelet:");
+                        double vane_virkestoff = Double.parseDouble(input_objekt.nextLine());
+
+                        System.out.println("Skriv inn styrken til det Vanedannende legemiddelet:");
+                        int vane_styrke = Integer.parseInt(input_objekt.nextLine());
+
+                        Narkotisk nyvane = new Narkotisk(vane_navn, vane_pris, vane_virkestoff, vane_styrke);
+
+                        legemiddelliste.leggTil(nyvane);
+                    }
+
+
+
+                    //Inge kan prøve på denne og legge til en if-sjekk for å sjekke om brukeren skrev riktig. 
+                    if (valg.toLowerCase().equals("vanlig")) {
+                    }
+
+
+
+                }
+            }
         }
 }
