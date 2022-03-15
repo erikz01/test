@@ -4,7 +4,7 @@ public class Pasient {
     private String fodselnr;
     private int id;
     private static int id_klassen = 1;
-    Stabel<Resept> liste;
+    Stabel<Resept> liste;//er Stabel den beste måten?
 
     //veldig lik oppgave som klassen resept i oblig 2
     public Pasient(String navn, String fodselnr) {
@@ -12,6 +12,10 @@ public class Pasient {
         this.fodselnr = fodselnr;
         this.id = id_klassen;
         id_klassen +=1;
+    }
+
+    public Stabel<Resept> hent_reseptliste(){
+        return liste;
     }
 
     public String hent_navn() { 
