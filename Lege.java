@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Lege implements Comparable<Lege>{
 
     IndeksertListe<Resept> utskrevneResepter = new IndeksertListe<>();
@@ -30,7 +32,6 @@ public class Lege implements Comparable<Lege>{
     }
 
 
-
     //D3
     HvitResept skrivHvitResept (Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift {  
     //Om en vanlig lege prøver å skrive ut et narkotisk legemiddel, kastes unntaket UlovligUtskrift:
@@ -39,6 +40,7 @@ public class Lege implements Comparable<Lege>{
     }
     HvitResept hvit_resept = new HvitResept(legemiddel, this, pasient,reit);
     utskrevneResepter.leggTil(hvit_resept);
+
     return hvit_resept;
     }
 
@@ -62,7 +64,7 @@ public class Lege implements Comparable<Lege>{
 
 
     //gjenta det med de andre reseptene
-    MilResept skrivBlaaResept (Legemiddel legemiddel, Pasient pasient) throws UlovligUtskrift {
+    MilResept skrivMilResept (Legemiddel legemiddel, Pasient pasient) throws UlovligUtskrift {
         if ((legemiddel instanceof Narkotisk) == true) {
             throw new UlovligUtskrift(this, legemiddel);
             
@@ -90,4 +92,5 @@ public class Lege implements Comparable<Lege>{
     public String toString() {
         return "Legens sitt navn: " + navn;
     }
+
 }
