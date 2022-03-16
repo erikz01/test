@@ -4,7 +4,9 @@ public class Pasient {
     private String fodselnr;
     private int id;
     private static int id_klassen = 1;
-    Stabel<Resept> liste;//er Stabel den beste måten?
+    //liste med resepter
+    IndeksertListe<Resept> liste;//er Stabel den beste måten?
+    int antallNarkotiskeResepter = 0;
 
     //veldig lik oppgave som klassen resept i oblig 2
     public Pasient(String navn, String fodselnr) {
@@ -14,7 +16,7 @@ public class Pasient {
         id_klassen +=1;
     }
 
-    public Stabel<Resept> hent_reseptliste(){
+    public IndeksertListe<Resept> hent_reseptliste(){
         return liste;
     }
 
@@ -28,5 +30,19 @@ public class Pasient {
 
     public int hent_id() { 
         return id;
+    }
+
+
+    //brukes i legemiddel for a telle narkotisk legemiddel for pasient
+    public int hentAntallNarkotisk() {
+        return antallNarkotiskeResepter;
+    }
+
+    public void oekAntallNarkotisk() {
+        antallNarkotiskeResepter++;
+    }
+
+    public void leggTilResept(Resept resept) {
+        liste.leggTil(resept);
     }
 }
