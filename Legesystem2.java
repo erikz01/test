@@ -313,7 +313,22 @@ public class Legesystem2 {
 
                 //Legge til pasient 
                 //Denne kan Inge ta. Bare følg oppsettet mitt i Lege
+
                 else if (svar.equals("pasient")) {  
+                    System.out.println("Du har valgt til a legge til en pasient");
+
+                    //Sporre om navn
+                    System.out.println("Hva er navnet ditt?: ");
+                    String pasientNavn = input_objekt.nextLine();
+
+                    //sporre om fodselsnr¨
+                    System.out.println("Hva er fodselsnummeret ditt?: ");
+                    String fodselsNr = input_objekt.nextLine();
+
+                    //Lager ny pasient
+                    Pasient nyPasient = new Pasient(pasientNavn, fodselsNr);
+                    pasientliste.leggTil(nyPasient);
+                    System.out.println("Ny pasient:" + pasientNavn + ", " + fodselsNr + " er lagt til i systemet.");
                 }
 
 
@@ -375,9 +390,21 @@ public class Legesystem2 {
                     }
 
 
-
                     //Inge kan prøve på denne og legge til en if-sjekk for å sjekke om brukeren skrev riktig. 
                     if (valg.toLowerCase().equals("vanlig")) {
+
+                        System.out.println("Skriv inn navnet til det vanlige legemiddelet: ");
+                        String vanligNavn = input_objekt.nextLine();
+
+                        System.out.println("Skriv inn prisen til det vanlige legemiddelet:");
+                        int vanligPris = Integer.parseInt(input_objekt.nextLine());
+
+                        System.out.println("Skriv inn virkestoff til det vanlige legemiddelet: ");
+                        int vanligVirkestoff = Integer.parseInt(input_objekt.nextLine());
+
+                        Vanlig nyVanlig = new Vanlig(vanligNavn, vanligPris, vanligVirkestoff);
+                        legemiddelliste.leggTil(nyVanlig);
+
                     }
 
 
