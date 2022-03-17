@@ -253,7 +253,7 @@ public class Legesystem2 {
 
             System.out.println("\nReseptene som er registrert i systemet:");
             for (Resept resept : reseptliste) {
-                System.out.println("-> " + resept);
+                System.out.println(resept);
             }
 
             System.out.println("Liste over alle leger:");
