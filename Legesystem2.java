@@ -257,7 +257,7 @@ public class Legesystem2 {
             }
 
             System.out.println("Liste over alle leger:");
-            for (Resept lege : legeliste) { //fungerer ikke på grunn av linje 8
+            for (Lege lege : legeliste) { //fungerer ikke på grunn av linje 8
                 System.out.println(lege);
             }
         }
