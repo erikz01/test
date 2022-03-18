@@ -25,7 +25,7 @@ public class Legesystem2 {
         //lesing av fil
         while (scanner.hasNextLine()) {
 
-            int indeks = 0;
+            int indeks = 1;
 
             String linje = scanner.nextLine();
             String[] biter = linje.split(",");
@@ -167,7 +167,7 @@ public class Legesystem2 {
                 }
 
             }
-            scanner.close();
+            // scanner.close();
 
         }
        

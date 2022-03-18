@@ -1,41 +1,58 @@
-public class Prioritetskoe<T extends Comparable<T>> extends LenkeListe<T> {
-
-    public void leggTilbestemt(int indeks,T x)	{
-            Node peker = new Node(x);
-            
-            if(indeks==0){
-                Node nyNode = new Node(x);
-                nyNode.neste_node = første_node;
-                første_node = nyNode;
-            }
-            else{
-            Node nåværende_node = første_node;
-                for(int i=1;i<indeks;i+=1){
-                    nåværende_node = nåværende_node.neste_node;
-                }
-            peker.neste_node = nåværende_node.neste_node;
-            nåværende_node.neste_node = peker;
-            }
-        }
+public class Prioritetskoe<T extends Comparable<T>> extends Lenkeliste<T> {
 
     @Override
+    // putter noden i listen slik at det blir i stigende rekkefolge fra minst til hoyst
     public void leggTil(T x) {
-        Node peker = første_node;
-        //Gjenbrukte kode fra forelesningen
-        if (er_listen_tom()) {
-            super.leggTil(x);
+        Node nyNode = new Node(x);
+        antNoder++;
+        
+        // hvis listen er tom
+        if (forste == null) {
+            forste = nyNode;
             return;
         }
-        for (int i = 0; i < stoerrelse; i++) {
-            if (peker.data.compareTo(x)>=0) {
-                //trenger en metode som kan legge til en element i en bestemt indeks
-                leggTilbestemt(i, x);
-                stoerrelse+=1;
-                return;
+
+        Node tmp = forste;
+
+        // hvis dataen man putter inn er minst
+        // hvis dataen er helt likt i forste node
+        if (forste.data.compareTo(nyNode.data) > 0 || forste.data.compareTo(nyNode.data) == 0) {
+            nyNode.neste = forste;
+            forste = nyNode;
+            return;
+        }
+
+        // kjorer hvis dataen > forste
+        while (tmp.neste != null) {
+            // gaar inn hvis tmp.data < nyNode.data
+            if (tmp.data.compareTo(nyNode.data) < 0) {
+                
+                //gaar inn hvis tmp.neste.data == nyNode.data
+                if (tmp.neste.data.compareTo(nyNode.data) == 0) {
+                    nyNode = tmp.neste;
+                    tmp.neste = nyNode;
+                    return;
+                }
+
+                //gaar inn hvis tmp.neste.data > nyNode.data
+                if (tmp.neste.data.compareTo(nyNode.data) > 0) {
+                    nyNode = tmp.neste;
+                    tmp.neste = nyNode;
+                    return;
+                }
+                tmp = tmp.neste;
             }
         }
-        super.leggTil(x);
-        //det funket:D
-    } 
+        tmp.neste = nyNode;
+    }
 
+    @Override
+    public T hent() {
+        return super.hent();
+    }
+    
+    @Override
+    public T fjern() {
+        return super.fjern();
+    }
 }

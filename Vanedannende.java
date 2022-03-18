@@ -1,23 +1,14 @@
-public class Vanedannende extends Legemiddel { 
+public class Vanedannende extends Legemiddel {
+    
+    int Id;
+    int styrke;
 
-    private int vanedannende_styrke;
-
-    public Vanedannende(String navn, int pris, double virkestoff, int vanedannende_styrke) {
+    public Vanedannende(String navn, int pris, double virkestoff, int styrke) {
         super(navn, pris, virkestoff);
-        this.vanedannende_styrke = vanedannende_styrke;
+        this.styrke = styrke;
     }
 
-
-    //Metode som returnerer vanedannende styrke 
     public int hentVanedannendeStyrke() {
-        return this.vanedannende_styrke;
+        return styrke;
     }
-
-    @Override
-    public String toString() {
-        return navn + ", " + this + ", " + pris + ", " + virkestoff + ", " + vanedannende_styrke;
-    }
-
-
-
 }

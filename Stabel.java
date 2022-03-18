@@ -1,14 +1,21 @@
-public class Stabel<T> extends LenkeListe<T> { 
+public class Stabel <T> extends Lenkeliste <T> {
     @Override
+    // putter noder forst i listen
     public void leggTil(T x) {
         Node nyNode = new Node(x);
 
-        //Nynode sin null blir erstattet med referansen til førstenode som nå blir den nest første noden
-        nyNode.neste_node = første_node;
-        //Videre vil Nynode bli til første_node, den er ikke null fordi den referer til den nest første noden
-        første_node = nyNode; 
+        antNoder++;
 
-        stoerrelse+=1;
+        // hvis det er ingen noder i listen
+        if (forste == null) {
+            forste = nyNode;
+            return;
+        }
+        // // annen maate aa gjore det paa med to pekere
+        // Node nyPeker = forste;
+        // forste = nyNode;
+        // forste.neste = nyPeker;
+        nyNode.neste = forste;
+        forste = nyNode;
     }
-
 }

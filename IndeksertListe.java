@@ -1,89 +1,128 @@
-public class IndeksertListe <T> extends LenkeListe<T> {
+public class IndeksertListe <T> extends Lenkeliste <T> {
+    int teller;
 
-    //Metoden leggTil(int pos,T x) skal sette inn x i listen i posisjon pos
-    public void leggTil(int pos,T x)	{
-
-    if(pos < 0 || pos > stoerrelse()){
-        throw new UgyldigListeindeks(pos);
-    }
-        Node ny_første_node = new Node(x);	
-		Node nyNode = new Node(x);
-	
-        //hvis brukeren har lyst å legge til et element i indeks 0
-		if(pos==0)
-		{
-            ny_første_node.neste_node = første_node;
-            første_node = ny_første_node;
-		}
-
-		else{
-		Node nåværende_node = første_node;
-        //skriver int i = 1 dersom else kjører vet vi allerede at vi ikke skal erstatte den første noden som er indeks 0 
-		for(int i=1;i<pos;i+=1){
-            nåværende_node = nåværende_node.neste_node;
-		}
-        //nåværende_node sin referanse blir erstattet med referansen til nyNode. Altså nåværende_node sin neste node før nyNode kom inn
-		nyNode.neste_node = nåværende_node.neste_node;
-        //nyNode vil nå ligge etter nåværende_node
-		nåværende_node.neste_node = nyNode;
-		}
-        stoerrelse += 1;
-        //det fungerer!!!
-	}
-
-
-//Metoden sett(int pos,T x) skal erstatte elementet i posisjon pos med x
-    public void sett(int pos, T x){
-        if(pos < 0 || pos >= stoerrelse()){
+    // legger til node i en posisjon
+    public void leggTil (int pos, T x) {
+        // hvis pos er ugyldig
+        if (pos < 0 || pos > stoerrelse()) {
             throw new UgyldigListeindeks(pos);
         }
-
-        Node peker = første_node;
-        for(int i = 0; i < pos; i+=1){
-            peker = peker.neste_node;
-        }
-        peker.data = x ;   
-    }
-
-
-//Metoden hent(int pos) skal hente elementet i gitt posisjon der
-    public T hent(int pos){
-        if(pos < 0 || pos >= stoerrelse()){
-        throw new UgyldigListeindeks(pos);
-        } else {
-
-        Node peker = første_node;
-        for(int i = 0; i < pos; i+=1){
-            peker = peker.neste_node;
-        }
-        return peker.data;
-        }
-    }
-
-
-//Metoden fjern(int pos) skal fjerne elementet i posisjon pos 
-    public T fjern(int pos) {
-        if(pos < 0 || pos >= stoerrelse()){
-            throw new UgyldigListeindeks(pos);
+        // lager ny node og plusser paa antNoder telleren
+        Node nyNode = new Node(x);
+        antNoder++;
+        
+        // kjorer hvis listen er tom
+        if (forste == null) {
+            forste = nyNode;
+            return;
         }
 
-        Node peker = første_node;
-        T res = null;
-
+        // legger node paa slutten av listen
+        if (pos == stoerrelse()) {
+            Node sluttNode = forste;
+            
+            while (sluttNode.neste != null) {
+                sluttNode = sluttNode.neste;
+            }
+            sluttNode.neste = nyNode;
+            return;
+        }
+        
+        // putter noden paa starten av lenkelisten
         if (pos == 0) {
-            første_node = første_node.neste_node;
+            nyNode.neste = forste;
+            forste = nyNode;
+            return;
+        }
+        
+        //kjorer hvis noden skal settes i midten av listen
+        Node nyPeker = forste;
+        while (teller + 1 < pos) {
+            nyPeker = nyPeker.neste;
+            teller++;
+        }
+        nyNode.neste = nyPeker.neste;
+        nyPeker.neste = nyNode;
+        teller = 0;
+    }
+    
+    public void sett (int pos, T x) {
+
+        // hvis pos er ugyldig
+        if (pos < 0 || pos >= stoerrelse()) {
+            throw new UgyldigListeindeks(pos);
         }
 
-        //Gjenbrukte kode fra forelesningen
-        else { 
-            for (int i = 0; i < pos-1; i+=1){
-                peker = peker.neste_node;
-            }    
-            res = peker.neste_node.data;
-            peker.neste_node = peker.neste_node.neste_node;
+        // hvis pos er 0
+        if (pos == 0) {
+            forste.data = x;
+        }
+        Node nyPeker = forste;
+
+        // kjorer hvis pos > 0
+        while (teller < pos) {
+            nyPeker = nyPeker.neste;
+            teller++;
+        }
+        nyPeker.data = x;
+        teller = 0;
+    }
+
+    public T hent (int pos) {
+
+        // hvis pos er ugyldig
+        if (pos < 0 || pos >= stoerrelse()) {
+            throw new UgyldigListeindeks(pos);
         }
 
-        stoerrelse-=1;
+        // hvis vi skal hente data i forste noden
+        if (pos == 0) {
+            return forste.data;
+        }
+        Node nyPeker = forste;
+
+        // kjorer hvis pos > 0
+        while (teller < pos) {
+            nyPeker = nyPeker.neste;
+            teller++;
+        }
+        teller = 0;
+        return nyPeker.data;
+    }
+
+    public T fjern (int pos) {
+
+        // hvis det ikke er noder i listen
+        if (forste == null) {
+            throw new UgyldigListeindeks(-1);
+        }
+
+        // hvis pos er ugyldig (utenfor det som er tillat)
+        if (pos < 0 || pos >= stoerrelse()) {
+            throw new UgyldigListeindeks(pos);
+        }
+
+        Node nyPeker = forste;
+
+        // kjorer hvis man fjerner forste element
+        if (pos == 0) {
+            T res = forste.data;
+            nyPeker = nyPeker.neste; 
+            forste = forste.neste;
+            return res;
+        }
+
+        // kjorer hvis pos > 0
+        while (teller + 1 < pos) {
+            nyPeker = nyPeker.neste;
+            teller++;
+        }
+        T res = nyPeker.neste.data;
+        Node tmp = nyPeker.neste.neste;
+
+        nyPeker.neste = tmp;
+        forste = nyPeker;
+        antNoder--;
         return res;
     }
 }

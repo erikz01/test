@@ -1,6 +1,6 @@
-interface Liste <T> extends Iterable<T> { //B1
-    int stoerrelse ();
+interface Liste<T> extends Iterable<T> {
+    int stoerrelse();
     void leggTil (T x);
-    T hent ();
-    T fjern ();
+    T hent();
+    T fjern();
 }

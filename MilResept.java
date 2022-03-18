@@ -1,17 +1,23 @@
 public class MilResept extends HvitResept {
-
-    public MilResept(Legemiddel legemiddel, Lege lege, Pasient pasient) {
-        super(legemiddel, lege, pasient, 3 );
+    
+    public MilResept(Legemiddel legemiddel, Lege utskrivendeLege, Pasient pasient) {
+        super(legemiddel, utskrivendeLege, pasient, 3);
+        
     }
-
-    //returner 0 siden det 100% rabatt som er gratis
     @Override
     public int prisAaBetale() {
+        // MilResept er gratis
         return 0;
     }
 
     @Override
     public String toString() {
-        return "Militær resept med 100% rabatt " + super.toString();
+        return ("-------MilResept-------" + '\n' +
+        legemiddel.toString() + '\n' + 
+        "Pris med resept: " + prisAaBetale() + " kr" + '\n' +
+        "ReseptId: " + reseptId + '\n' + 
+        hentLege() + '\n' +
+        "Pasient: " + pasient + '\n' +
+        "antReit:" + reit + '\n');
     }
 }
