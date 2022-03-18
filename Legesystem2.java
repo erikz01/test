@@ -148,22 +148,28 @@ public class Legesystem2 {
                 //blaaresept
                 else if (type.contains("blaa")) {  
                     int reit = Integer.parseInt(biter[ 4 ]);
-                    Resept blaa = new BlaaResept(valgtLegemid,navnettillege,idpasientene,reit);
-                    reseptliste.leggTil(blaa);
+                    reseptliste.leggTil(navnettillege.skrivBlaaResept(valgtLegemid, idpasientene, reit));
+
+                    //Resept blaa = new BlaaResept(valgtLegemid,navnettillege,idpasientene,reit);
+                    //reseptliste.leggTil(blaa);
                 }
 
                 //prevensjonresept
                 else if (type.contains("p")) {  
                     int reit = Integer.parseInt(biter[ 4 ]);
-                    Resept prresept = new PResept(valgtLegemid,navnettillege,idpasientene,reit);
-                    reseptliste.leggTil(prresept);
+                    reseptliste.leggTil(navnettillege.skrivPResept(valgtLegemid, idpasientene, reit));
+
+                    //Resept prresept = new PResept(valgtLegemid,navnettillege,idpasientene,reit);
+                    //reseptliste.leggTil(prresept);
                 }
 
                 //militær
                 //Den enesete som ikke bruker reit er militær, kanskje fordi de får 3 uannsett som da sa i oblig 2??
                 else if (type.contains("militaer")) {  
-                    Resept mResept = new MilResept(valgtLegemid,navnettillege,idpasientene);
-                    reseptliste.leggTil(mResept);
+                    reseptliste.leggTil(navnettillege.skrivMilResept(valgtLegemid, idpasientene));
+
+                    //Resept mResept = new MilResept(valgtLegemid,navnettillege,idpasientene);
+                   // reseptliste.leggTil(mResept);
                 }
 
             }
