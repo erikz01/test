@@ -32,6 +32,13 @@ public class Pasient {
         return id;
     }
 
+    @Override
+    public String toString() {
+
+        return (navn + ", " + fodselnr);
+
+    }
+
 
     //brukes i legemiddel for a telle narkotisk legemiddel for pasient
     public int hentAntallNarkotisk() {

@@ -4,8 +4,9 @@ public class Vanlig extends Legemiddel{
         super(navn, pris, virkestoff);
     }
 
+
     @Override
     public String toString() {
-        return "navn: " + navn + " pris: " + pris + " virkestoff: " + virkestoff ;
+        return navn + ", " + this + ", " + pris + ", " + virkestoff;
     }
 }

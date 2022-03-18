@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Lege implements Comparable<Lege>{
 
     IndeksertListe<Resept> utskrevneResepter = new IndeksertListe<>();
@@ -41,9 +39,9 @@ public class Lege implements Comparable<Lege>{
     HvitResept hvit_resept = new HvitResept(legemiddel, this, pasient,reit);
     utskrevneResepter.leggTil(hvit_resept);
     //legger til i pasient sin reseptliste
-    pasient.leggTil(hvit_resept);
-     //legger til i legesenter sin reseptliste
-    pasient.leggTilResept(hvit_resept);
+    // pasient.leggTil(hvit_resept);
+    //  //legger til i legesenter sin reseptliste
+    // pasient.leggTilResept(hvit_resept);
     
     
 
@@ -62,12 +60,13 @@ public class Lege implements Comparable<Lege>{
         else if ((this instanceof Spesialist) == true) {  
             BlaaResept blaa_resept = new BlaaResept(legemiddel, this, pasient,reit);
             utskrevneResepter.leggTil(blaa_resept);
-            //legger til i pasient sin reseptliste
-            pasient.leggTil(blaa_resept);
-            //legger til i legesenter sin reseptliste
-            pasient.leggTilResept(blaa_resept);
-        }
+        //     //legger til i pasient sin reseptliste
+        //     pasient.leggTil(blaa_resept);
+        //     //legger til i legesenter sin reseptliste
+        //     pasient.leggTilResept(blaa_resept);
+        // }
 
+    }
     return blaa_resept;
     }
 
@@ -81,10 +80,10 @@ public class Lege implements Comparable<Lege>{
         }
         MilResept milresept = new MilResept(legemiddel, this, pasient);
         utskrevneResepter.leggTil(milresept);
-        //legger til i pasient sin reseptliste
-        pasient.leggTil(milresept);
-         //legger til i legesenter sin reseptliste
-        pasient.leggTilResept(milresept);
+        // //legger til i pasient sin reseptliste
+        // pasient.leggTil(milresept);
+        //  //legger til i legesenter sin reseptliste
+        // pasient.leggTilResept(milresept);
 
         return milresept;
     }
@@ -98,10 +97,11 @@ public class Lege implements Comparable<Lege>{
         PResept presept = new PResept (legemiddel, this, pasient, reit);
         utskrevneResepter.leggTil(presept);
         //legger til i pasient sin reseptliste
-        pasient.leggTil(presept);
-        //legger til i legesenter sin reseptliste
-        pasient.leggTilResept(presept);
-         return presept;
+        // pasient.leggTil(presept);
+        // //legger til i legesenter sin reseptliste
+        // pasient.leggTilResept(presept);
+        //  return presept;
+        return presept;
     }
 
 

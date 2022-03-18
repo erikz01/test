@@ -13,9 +13,16 @@ public class Narkotisk extends Legemiddel {
         return narkotisk_styrke;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "navn: " + navn + " pris: " + pris + " virkestoff: " + virkestoff + " narkotisk styrke " + narkotisk_styrke;
+    // }
+
     @Override
     public String toString() {
-        return "navn: " + navn + " pris: " + pris + " virkestoff: " + virkestoff + " narkotisk styrke " + narkotisk_styrke;
+
+        return (navn + ", " + this + ", " + pris + ", " + virkestoff + ", " + narkotisk_styrke);
+
     }
 
 }
