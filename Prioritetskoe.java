@@ -29,14 +29,14 @@ public class Prioritetskoe<T extends Comparable<T>> extends Lenkeliste<T> {
                 
                 //gaar inn hvis tmp.neste.data == nyNode.data
                 if (tmp.neste.data.compareTo(nyNode.data) == 0) {
-                    nyNode = tmp.neste;
+                    nyNode.neste = tmp.neste;
                     tmp.neste = nyNode;
                     return;
                 }
 
                 //gaar inn hvis tmp.neste.data > nyNode.data
                 if (tmp.neste.data.compareTo(nyNode.data) > 0) {
-                    nyNode = tmp.neste;
+                    nyNode.neste = tmp.neste;
                     tmp.neste = nyNode;
                     return;
                 }
@@ -46,13 +46,15 @@ public class Prioritetskoe<T extends Comparable<T>> extends Lenkeliste<T> {
         tmp.neste = nyNode;
     }
 
-    @Override
-    public T hent() {
-        return super.hent();
-    }
+    // @Override
+    // public T hent() {
+    //     return super.hent();
+    // }
     
-    @Override
-    public T fjern() {
-        return super.fjern();
-    }
+    // @Override
+    // public T fjern() {
+    //     return super.fjern();
+    // }
 }
+
+

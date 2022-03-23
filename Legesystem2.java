@@ -1,17 +1,18 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+// import java.io.IOException;
+// import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Legesystem2 {
     private IndeksertListe<Pasient> pasientliste = new IndeksertListe<>();
     private IndeksertListe<Legemiddel> legemiddelliste = new IndeksertListe<>();
+    // private IndeksertListe<Lege> legeliste = new IndeksertListe<>();
+    //Prioritetskoe funker ikke helt
     private Prioritetskoe<Lege> legeliste = new Prioritetskoe<>(); //vett ikje koffor det ikje fungerer 
     private IndeksertListe<Resept> reseptliste = new IndeksertListe<>();
 
     public void lesFil(String filnavn) throws UlovligUtskrift {
-        
         //Scanner scan = null;
 
         //try & catch for a sjekke om det blir tatt inn fil
@@ -20,171 +21,194 @@ public class Legesystem2 {
             //lager et filobjekt som sendes til Scanner
             File fil = new File(filnavn);
             Scanner scanner = new Scanner(fil);
-
+            int indeks = 0;
 
         //lesing av fil
         while (scanner.hasNextLine()) {
 
-            int indeks = 1;
-
             String linje = scanner.nextLine();
-            String[] biter = linje.split(",");
-            //System.out.println(linje);
+            String[] biter = linje.trim().split(",");
+            // System.out.println(linje);
 
             //hvis det starter med 
             if(linje.contains("#")) {
+                // System.out.println("øker indeks fra " + indeks + " til " + (indeks + 1));
                 indeks ++;
                 //return;
-            }
+            } else {
 
-            //pasient
-            if (indeks == 1) {
-                String fullnavn = biter[0];
-                String fnr = biter[1];
-                Pasient pasientinfo = new Pasient(fullnavn, fnr);
-                pasientliste.leggTil(pasientinfo);
-            }
+                //pasient
+                if (indeks == 1) {
+                    String fullnavn = biter[0];
+                    String fnr = biter[1];
+                    Pasient pasientinfo = new Pasient(fullnavn, fnr);
+                    // System.out.println(fullnavn + "blir lagt til i pasientliste");
+                    pasientliste.leggTil(pasientinfo);
+                }
 
-            //Legemidler
-            else if (indeks == 2) {
-                
-                String navn = biter[0];
-                double mengdeVirkestoff = Double.parseDouble(biter[3]);
-                //Type er biter[1]
-                int pris = Integer.parseInt(biter[2]);
-                //double mengdeVirkestoff = Double.parseDouble(biter[3]);
-
-                //hvis det er mindre enn 4 biter, så tilhører den Vanlig legemiddel
-                if (biter.length < 4) {
+                //Legemidler
+                else if (indeks == 2) {
                     
+                    String navn = biter[0];
+                    double mengdeVirkestoff = Double.parseDouble(biter[3]);
+                    //Type er biter[1]
+                    int pris = Integer.parseInt(biter[2]);
+
+
+                    Narkotisk narkotisk = new Narkotisk(navn, pris, mengdeVirkestoff, Integer.parseInt(biter[3]));
+                    Vanedannende vanedannende = new Vanedannende(navn, pris, mengdeVirkestoff, Integer.parseInt(biter[3]));
                     Vanlig vanlig = new Vanlig(navn, pris, mengdeVirkestoff);
-                    legemiddelliste.leggTil(vanlig);
-                    return;
 
-                }
-
-                //Hvis det er narkotisk eller vanedannende
-    
-
-                Narkotisk narkotisk = new Narkotisk(navn, pris, mengdeVirkestoff, Integer.parseInt(biter[3]));
-                Vanedannende vanedannende = new Vanedannende(navn, pris, mengdeVirkestoff, Integer.parseInt(biter[3]));
-                
-                if(biter[1].equals(narkotisk)) {
-                    legemiddelliste.leggTil(narkotisk);
-                }
-                
-                else if (biter[1].equals(vanedannende)) {
-                    legemiddelliste.leggTil(vanedannende);
-                }
-        
-            }
-
-            //Lege
-            else if (indeks == 3) {
-
-                //Fjerner dr. fra alle doktornavnene
-                // https://www.codegrepper.com/code-examples/java/java+remove+first+3+characters+from+string
-                String midlNavn = biter[0];
-                String lege = midlNavn.substring(4);
-
-                String id = biter[1];
-
-                //hvis biter[1] (id) == 0, så er det vanlig lege
-                if (id.equals(0)) {
-                    Lege legeinfo = new Lege(lege);
-                    legeliste.leggTil(legeinfo);
-                }
-                
-                else if (id.equals(0)) {
-                    Spesialist spesialistInfo = new Spesialist(lege, id);
-                    legeliste.leggTil(spesialistInfo);
-                }
-                
-                //Jeg vet ikke hvordan prioritetskoen din ser ut? Så vet ikke hvordan jeg skal gaa frem videre?   
-
-            }
-
-            //Resept
-            else if (indeks == 4) {
-
-                //bruker Integer.parseInt(); fra oblig 1
-                int legemiddelNummer = Integer.parseInt(biter[0]);
-                Legemiddel valgtLegemid = null;
-                for (Legemiddel legemdl : legemiddelliste){
-                    if (legemdl.hentId() == legemiddelNummer){
-                        valgtLegemid = legemdl;
-                    }
-                }
-
-                //skal hente objektene fr a
-                String legenavn = biter[1];
-                Lege navnettillege = null;
-                for (Lege navn  : legeliste){ //fungerer ikke på grunn av linje 8
-                    if (navn.hentNavn().equals(legenavn)){
-                        navnettillege = navn;
-                    }
-                }
-
-                int pasientID = Integer.parseInt(biter[2]);
-                Pasient idpasientene = null;
-                for (Pasient iD  : pasientliste){ 
-                    if (iD.hent_id() == pasientID){
-                        idpasientene = iD;
-                    }
-                }
-                
-                String type = biter[ 3 ];
-
-                //SKAL KALLE PÅ SKRIVRESEPTMETODE FRA LEGE!
-                //hvitResept
-                if (type.contains("hvit")) {  
-                    int reit = Integer.parseInt(biter[ 4 ]);
                     
-                    reseptliste.leggTil(navnettillege.skrivHvitResept(valgtLegemid, idpasientene, reit));
-                    //Resept hvit = new HvitResept(valgtLegemid,navnettillege,idpasientene,reit);
-                    //reseptliste.leggTil(hvit);
+                    if(biter[1].equals("narkotisk")) {
+
+                        legemiddelliste.leggTil(narkotisk);
+                    }
+
+                    else if (biter[1].equals("vanlig")) {
+
+                        legemiddelliste.leggTil(vanlig);
+                    }
+                    
+                    else if (biter[1].equals("vanedannende")) {
+
+                        legemiddelliste.leggTil(vanedannende);
+                    }
+            
                 }
 
-                //blaaresept
-                else if (type.contains("blaa")) {  
-                    int reit = Integer.parseInt(biter[ 4 ]);
-                    reseptliste.leggTil(navnettillege.skrivBlaaResept(valgtLegemid, idpasientene, reit));
+                //Lege
+                else if (indeks == 3) {
 
-                    //Resept blaa = new BlaaResept(valgtLegemid,navnettillege,idpasientene,reit);
-                    //reseptliste.leggTil(blaa);
+                    //Fjerner dr. fra alle doktornavnene
+                    // https://www.codegrepper.com/code-examples/java/java+remove+first+3+characters+from+string
+                    String midlNavn = biter[0];
+                    String lege = midlNavn.substring(4);
+
+                    String id = biter[1];
+
+                    //hvis biter[1] (id) == 0, så er det vanlig lege
+                    if (id.equals("0")) {
+                      
+                        Lege legeinfo = new Lege(lege);
+                        legeliste.leggTil(legeinfo);
+                    }
+                    
+                    else {
+                  
+                        Spesialist spesialistInfo = new Spesialist(lege, id);
+                        legeliste.leggTil(spesialistInfo);
+                    }
+                    
+                    //Jeg vet ikke hvordan prioritetskoen din ser ut? Så vet ikke hvordan jeg skal gaa frem videre?   
+
                 }
 
-                //prevensjonresept
-                else if (type.contains("p")) {  
-                    int reit = Integer.parseInt(biter[ 4 ]);
-                    reseptliste.leggTil(navnettillege.skrivPResept(valgtLegemid, idpasientene, reit));
+                //Resept
 
-                    //Resept prresept = new PResept(valgtLegemid,navnettillege,idpasientene,reit);
-                    //reseptliste.leggTil(prresept);
+
+                else if (indeks == 4) {
+
+                    //bruker Integer.parseInt(); fra oblig 1
+                    int legemiddelNummer = Integer.parseInt(biter[0]);
+                    String legenavn = biter[1];
+                    int pasientID = Integer.parseInt(biter[2]);
+                    String type = biter[3];
+                    
+                    
+                    Legemiddel valgtLegemid = null;
+                    Lege navnettillege = null;
+                    Pasient idpasientene = null;
+
+                    for (Legemiddel legemdl : legemiddelliste){
+                        if (legemdl.hentId() == legemiddelNummer){
+                            valgtLegemid = legemdl;
+                        }
+                    }
+
+                    //skal hente objektene fr a
+                    for (Lege navn : legeliste){ //fungerer ikke på grunn av linje 8
+                        if (navn.hentNavn().equals(legenavn)){
+                            navnettillege = navn;
+                        }
+                    }
+
+                    for (Pasient iD  : pasientliste){ 
+                        if (iD.hent_id() == pasientID){
+                            idpasientene = iD;
+                        }
+
+                    }
+
+                    // System.out.println("du er her");
+                    // if (valgtLegemid == null || navnettillege == null || idpasientene == null) {
+                    //     System.out.println("hei");
+                    //     //denne skal egentlig ikke kjøre??
+                    //     // return;
+                    System.out.println("TESTTETDOVDVMSOL");
+    
+                    try {
+                        if (type.contains("hvit")) {  
+                            int reit = Integer.parseInt(biter[ 4 ]);
+                            
+                            reseptliste.leggTil(navnettillege.skrivHvitResept(valgtLegemid, idpasientene, reit));
+                            System.out.println("lag til hvit resept");
+                            //Resept hvit = new HvitResept(valgtLegemid,navnettillege,idpasientene,reit);
+                            //reseptliste.leggTil(hvit);
+                        }
+        
+                        //blaaresept
+                        else if (type.contains("blaa")) {  
+                            int reit = Integer.parseInt(biter[ 4 ]);
+                            Resept blaa = new BlaaResept(valgtLegemid,navnettillege,idpasientene,reit);
+                            reseptliste.leggTil(blaa);
+                            System.out.println("la til blaa resept");
+                        }
+        
+                        //prevensjonresept
+                        else if (type.contains("p")) {  
+                            int reit = Integer.parseInt(biter[ 4 ]);
+                            Resept prresept = new PResept(valgtLegemid,navnettillege,idpasientene,reit);
+                            reseptliste.leggTil(prresept);
+                            System.out.println("la til p resept");
+                        }
+        
+                        //militær
+                        //Den enesete som ikke bruker reit er militær, kanskje fordi de får 3 uannsett som da sa i oblig 2??
+                        else if (type.contains("militaer")) {  
+                            Resept mResept = new MilResept(valgtLegemid,navnettillege,idpasientene);
+                            reseptliste.leggTil(mResept);
+                            System.out.println("la til mil resept");
+                        }
+                        
+                    } catch (Exception e) {
+                        System.out.println("Ulovlig utskrift");
+                    }
+    
+                    //SKAL KALLE PÅ SKRIVRESEPTMETODE FRA LEGE!
+                    //hvitResept
+                      
+
                 }
 
-                //militær
-                //Den enesete som ikke bruker reit er militær, kanskje fordi de får 3 uannsett som da sa i oblig 2??
-                else if (type.contains("militaer")) {  
-                    reseptliste.leggTil(navnettillege.skrivMilResept(valgtLegemid, idpasientene));
 
-                    //Resept mResept = new MilResept(valgtLegemid,navnettillege,idpasientene);
-                   // reseptliste.leggTil(mResept);
+                    
                 }
 
             }
             // scanner.close();
-
         }
+        catch(FileNotFoundException e) {
+            System.out.println("Finner ikke filen" + filnavn);
+        }
+    
        
     }
 
         //forteller java hva feilen er
-        catch(FileNotFoundException e) {
-            System.out.println("Finner ikke filen" + filnavn);
-        }
-    }
 
+
+        /*
         // E2
         // Skal kalle på de andre metodene fra E4, E5, E6 osv.
         public void kommandoLokke() throws UlovligUtskrift {
@@ -232,35 +256,46 @@ public class Legesystem2 {
             }
     
         }
+        */
 
 
 
         //E3
         public void skriv_info() {
 
-            System.out.println("Liste av alle pasienter:");
-            for (Pasient pasient : pasientliste) {
-                System.out.println(pasient);
-            }
+            // System.out.println("Liste av alle pasienter:");
+            // for (Pasient pasient : pasientliste) {
+            //     System.out.println(pasient);
+            // }
 
-            System.out.println("Liste av alle legemiddelene:");
-            for (Legemiddel legemiddel : legemiddelliste) {
-                System.out.println(legemiddel);
-            }
+            // System.out.println("Liste av alle legemiddelene:");
+            // for (Legemiddel legemiddel : legemiddelliste) {
+            //     System.out.println(legemiddel);
+            // }
 
             System.out.println("\nReseptene som er registrert i systemet:");
+            System.out.println(reseptliste.stoerrelse());
             for (Resept resept : reseptliste) {
                 System.out.println(resept);
             }
 
-            System.out.println("Liste over alle leger:");
-            for (Lege lege : legeliste) { //fungerer ikke på grunn av linje 8
-                System.out.println(lege);
-            }
+            // System.out.println("Liste over alle leger:");
+
+            // /* for (Lege lege : legeliste) { //fungerer ikke på grunn av linje 8
+            //     System.out.println("HEI TEST" + legeliste.stoerrelse());
+            //     System.out.println(lege);
+            // } */
+
+            // int ganger = legeliste.stoerrelse();
+
+            // for (int i = 0; i < ganger; i++) {
+            //     System.out.println(legeliste.fjern());
+            // }
+
         }
 
 
-
+/*
         //E4
         public void leggtil() throws UlovligUtskrift {
             //Hvordan man lager input i java:
@@ -738,7 +773,7 @@ public class Legesystem2 {
                 System.out.println(navnMedNarkotisk + "\nAntall narkotiske resepter: " + totalNarkotiskResept);
             }
 
-
+            
             public void SkrivTilFil(){
 
                 try {
@@ -779,5 +814,7 @@ public class Legesystem2 {
                 
 
             }
+
+            */
 
 }
