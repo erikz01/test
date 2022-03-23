@@ -3,13 +3,15 @@ public abstract class Legemiddel {
     protected String navn;
     protected int pris;
     protected double virkestoff;
-    protected static int Id;
+    protected static int antMidler;
+    protected int Id;
     
     public Legemiddel(String navn, int pris, double virkestoff) {
         this.navn = navn;
         this.pris = pris;
         this.virkestoff = virkestoff;
-        Id++ ;
+        antMidler++ ;
+        this.Id = antMidler;
     }
 
     public int hentId() {

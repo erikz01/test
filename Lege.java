@@ -47,15 +47,17 @@ public class Lege implements Comparable<Lege>{
 
     BlaaResept skrivBlaaResept (Legemiddel Legemiddel, Pasient pasient, int reit) throws UlovligUtskrift {  
         //Om en vanlig Lege prøver å skrive ut et narkotisk Legemiddel, kastes unntaket UlovligUtskrift:
-        if ((Legemiddel instanceof Narkotisk) == true) {  
+        if ((Legemiddel instanceof Narkotisk && !(this instanceof Spesialist)) == true) {  
             throw new UlovligUtskrift(this,Legemiddel);
         }
 
-        //Spesialister kan alltid skrive ut Narkotiske Legemidler men bare på blå resept.
-        else if ((this instanceof Spesialist)== true) {  
-            BlaaResept blaa_resept = new BlaaResept(Legemiddel, this, pasient,reit);
-            utskrevneResepter.leggTil(blaa_resept);
-        }
+        // //Spesialister kan alltid skrive ut Narkotiske Legemidler men bare på blå resept.
+        // else if ((this instanceof Spesialist)== true) {  
+        //     BlaaResept blaa_resept = new BlaaResept(Legemiddel, this, pasient,reit);
+        //     utskrevneResepter.leggTil(blaa_resept);
+        // }
+        BlaaResept blaa_resept = new BlaaResept(Legemiddel, this, pasient,reit);
+        utskrevneResepter.leggTil(blaa_resept);
         return blaa_resept;
     }
 
